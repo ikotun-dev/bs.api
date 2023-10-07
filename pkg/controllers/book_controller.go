@@ -17,7 +17,11 @@ var NewBook models.Book
 func GetBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 	newBooks := models.GetAllBooks()
-	res, _ := json.Marshal(newBooks)
+	//res, _ := json.Marshal(newBooks)
+	res, err := json.Marshal(newBooks)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
